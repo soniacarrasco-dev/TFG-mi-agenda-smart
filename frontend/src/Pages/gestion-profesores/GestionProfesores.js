@@ -147,7 +147,7 @@ const GestionProfesores = ({ usuario }) => {
                         </div>
 
                         <a href={`mailto:${prof.email_contacto}`} className="btn-send-mail">
-                            <FiMail /> Enviar Correo
+                            <FiMail /> Enviar correo
                         </a>
                     </div>
                 ))}

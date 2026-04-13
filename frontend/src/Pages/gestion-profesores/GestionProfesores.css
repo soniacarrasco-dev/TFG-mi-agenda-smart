@@ -15,6 +15,9 @@
 
 .profes-header p {
     color: #08998D;
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+    margin-top: 0px;
 }
 
 .btn-add-prof {

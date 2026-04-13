@@ -21,7 +21,7 @@ const PaginaCalendario = ({ usuario }) => {
 
     return (
         <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
-            <h2 style={{ color: '#194f58', marginBottom: '20px' }}>Calendario</h2>
+            <h2 style={{ color: '#194f58', marginBottom: '20px' }}>CALENDARIO</h2>
 
             <CalendarioEventos
                 eventos={eventos}

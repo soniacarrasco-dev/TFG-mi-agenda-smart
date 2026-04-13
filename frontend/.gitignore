@@ -1,0 +1,34 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Archivos de entorno
+backend/.env
+.env
+
+# Directorios de subida de archivos
+uploads/
+
+# Archivos del sistema y editores
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.idea/
+
+# Compilados / temporales
+dist/
+build/
+*.tmp
+*.temp
+
+# Cobertura de pruebas
+coverage/
+
+# Otros archivos específicos de tu proyecto
+.env.local
+.env.development
+.env.production

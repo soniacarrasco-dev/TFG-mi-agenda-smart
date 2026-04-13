@@ -1,0 +1,114 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #08998d;
+    overflow-x: hidden;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    background-color: #08998d;
+    background-image: url('../../assets/bg1.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.login-box {
+    width: 90%;
+    max-width: 400px;
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #194f58;
+
+    /* Ajustes para móviles pequeños (menos de 480px) */
+    @media (max-width: 480px) {
+        .login-box {
+            padding: 1.5rem;
+            width: 95%;
+        }
+    }
+}
+
+.input-group {
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.remember-me {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.remember-me input[type="checkbox"] {
+    margin-right: 10px !important;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    transform: translateY(2px);
+    cursor: pointer;
+    accent-color: #08998d;
+}
+
+.input-group .remember-me {
+    margin-top: 10px;
+}
+
+.btn-access,
+.btn-register {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.btn-access {
+    background-color: #08998d;
+    color: white;
+}
+
+.btn-register {
+    background-color: #6c757d;
+    color: white;
+}
+
+.forgot-password {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+}
+
+.forgot-password a {
+    color: #007bff;
+    text-decoration: none;
+}

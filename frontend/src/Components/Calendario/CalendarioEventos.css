@@ -1,0 +1,106 @@
+.calendario-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.card-calendario {
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    max-height: 400px;
+}
+
+.dot-calendario {
+    height: 7px;
+    width: 7px;
+    border-radius: 50%;
+    margin: 2px auto 0;
+    display: block;
+}
+
+.dot-tarea {
+    background-color: #22c55e;
+}
+
+.dot-examen {
+    background-color: #ef4444;
+}
+
+.dot-video {
+    background-color: #3b82f6;
+}
+
+
+.react-calendar {
+    border: none !important;
+    width: 100% !important;
+    font-family: inherit;
+}
+
+.react-calendar__tile {
+    padding: 12px 5px !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.react-calendar__tile--active {
+    background: #08998D !important;
+    border-radius: 8px;
+}
+
+.eventos-dia-seleccionado {
+    background: #f8fafc;
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+.eventos-dia-seleccionado h4 {
+    margin-top: 0;
+    font-size: 0.9rem;
+    color: #194f58;
+    text-transform: uppercase;
+}
+
+.lista-mini-eventos {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.mini-item-evento {
+    padding: 10px;
+    background: white;
+    border-radius: 8px;
+    border-left: 4px solid #ccc;
+    font-size: 0.9rem;
+    display: flex;
+    gap: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.mini-item-evento.examen {
+    border-left-color: #ef4444;
+}
+
+.mini-item-evento.tarea {
+    border-left-color: #22c55e;
+}
+
+.mini-item-evento.videoconferencia {
+    border-left-color: #3b82f6;
+}
+
+.mini-tipo {
+    font-weight: bold;
+    color: #64748b;
+}
+
+.no-eventos-text {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    font-style: italic;
+}

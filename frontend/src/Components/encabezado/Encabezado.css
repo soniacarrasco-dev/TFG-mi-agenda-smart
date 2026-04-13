@@ -1,0 +1,140 @@
+html,
+body,
+#root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.layout-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.main-header {
+    background-color: #194f58;
+    padding: 0.8rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1001;
+    border-bottom: 3px solid #08998D;
+    box-sizing: border-box;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.bienvenida h1 {
+    margin: 0;
+    font-size: 1.4rem;
+    color: white;
+    font-weight: 500;
+}
+
+.hamburger-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 5px;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    height: 50px;
+    width: auto;
+    display: block;
+}
+
+.app-body {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+}
+
+.content-area {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #fcfcfc;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+}
+
+
+
+
+/* DISEÑO RESPONSIVO */
+@media (max-width: 768px) {
+
+    /* Muestra menú hamburguesa en móvil dentro del header */
+    .hamburger-btn {
+        display: flex;
+    }
+
+    .menu-lateral {
+        position: fixed;
+        left: -250px;
+        top: 0;
+        height: 100vh;
+        z-index: 1002;
+        transition: left 0.3s ease;
+        box-shadow: 5px 0 15px rgba(0, 0, 0, 0.2);
+        background-color: white;
+        overflow-y: auto;
+    }
+
+    .menu-lateral.abierto {
+        left: 0;
+    }
+
+    .main-header {
+        padding: 0.6rem 1rem;
+    }
+
+    .bienvenida h1 {
+        font-size: 1.1rem;
+    }
+
+    .logo-img {
+        height: 40px;
+    }
+}
+
+/* Móviles Pequeños */
+@media (max-width: 480px) {
+    .bienvenida h1 {
+        font-size: 0.95rem;
+        max-width: 160px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .logo-img {
+        height: 35px;
+    }
+}

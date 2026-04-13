@@ -1,0 +1,228 @@
+.gestion-profes-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.profes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    color: #194f58;
+    font-size: 0.7rem;
+}
+
+.profes-header p {
+    color: #08998D;
+}
+
+.btn-add-prof {
+    background: #08998D;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+}
+
+.profes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.prof-card {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    transition: 0.3s;
+}
+
+.prof-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.prof-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.prof-avatar-circle {
+    width: 50px;
+    height: 50px;
+    background: #f3f4f6;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: #6b7280;
+}
+
+.prof-card-body h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.2rem;
+    color: #1f2937;
+}
+
+.info-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #6b7280;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+}
+
+.btn-send-mail {
+    margin-top: 15px;
+    background: #08998d1f;
+    color: #08998D;
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-send-mail:hover {
+    background: #08998D;
+    color: white;
+}
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-prof-content {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    width: 400px;
+    color: #194f58;
+}
+
+.modal-prof-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.btn-close {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #888;
+}
+
+.prof-form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.prof-form-group label {
+    color: #444;
+    font-weight: 600;
+}
+
+.prof-form-group input {
+    padding: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    color: #194f58;
+    font-size: 1rem;
+}
+
+.btn-edit-ghost {
+    color: #08998D;
+    border: none;
+    background: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.btn-del-ghost {
+    color: #ef4444;
+    border: none;
+    background: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.btn-save-prof {
+    width: 100%;
+    padding: 12px;
+    background: #08998D;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.input-error {
+    border: 1px solid #ff4d4d !important;
+    background-color: #fff5f5;
+}
+
+.error-text {
+    color: #ff4d4d;
+    font-size: 0.8rem;
+    margin-top: 4px;
+    display: block;
+    font-weight: 500;
+}
+
+.btn-save-prof:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+
+
+
+
+
+/* --- ESTILOS PARA MÓVILES Y TABLETS --- */
+@media (max-width: 768px) {
+    .profes-header {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .btn-add-prof {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}

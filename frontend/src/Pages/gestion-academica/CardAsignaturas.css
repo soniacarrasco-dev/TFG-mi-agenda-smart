@@ -1,0 +1,59 @@
+.asig-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-left: none;
+}
+
+.asig-card:hover {
+    background: #f9fafa;
+}
+
+.asig-card.selected {
+    background: #f0fdfa;
+    box-shadow: inset 5px 0 0 0 #08998D;
+}
+
+.asig-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    align-items: flex-start;
+}
+
+.asig-nombre {
+    color: #194f58;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.asig-profesor {
+    color: #888;
+    font-size: 0.8rem;
+    font-style: italic;
+}
+
+.asig-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-edit-ghost {
+    color: #3b82f6;
+    border: none;
+    background: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.btn-del-ghost {
+    color: #ef4444;
+    border: none;
+    background: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+}

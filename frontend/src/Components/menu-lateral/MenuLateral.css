@@ -1,0 +1,106 @@
+.menu-lateral {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    background-color: #f7f7f7;
+    border-right: 1px solid #e0e0e0;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    height: 100%;
+    transition: left 0.3s ease;
+}
+
+.menu-nav {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+}
+
+.menu-list {
+    list-style: none;
+    padding: 20px 0;
+    margin: 0;
+    flex-grow: 1;
+}
+
+.menu-item {
+    margin-bottom: 5px;
+}
+
+.menu-link {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: #333;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border-radius: 4px;
+    margin: 0 10px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    width: calc(100% - 20px);
+    box-sizing: border-box;
+}
+
+.menu-link:hover {
+    background-color: #e0e0e0;
+    color: #194f58;
+}
+
+.menu-link.active {
+    background-color: #194f58;
+    color: #fff;
+    font-weight: 600;
+}
+
+/* --- BLOQUE INFERIOR (Cerrar Sesión) --- */
+.menu-footer {
+    padding: 20px 0;
+    border-top: 1px solid #e0e0e0;
+    margin-top: auto;
+}
+
+.logout-item {
+    color: #d9534f;
+}
+
+.logout-item:hover {
+    background-color: #fdeaea;
+    color: #c9302c;
+}
+
+.menu-icon {
+    margin-right: 12px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.menu-icon svg {
+    vertical-align: middle;
+}
+
+/* --- VISTA MÓVIL --- */
+@media (max-width: 768px) {
+    .menu-lateral {
+        position: fixed;
+        left: -250px;
+        top: 0;
+        height: 100vh;
+        z-index: 1002;
+        box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+        background-color: white;
+    }
+
+    .menu-lateral.abierto {
+        left: 0;
+    }
+
+    .menu-link {
+        padding: 15px 20px;
+    }
+}

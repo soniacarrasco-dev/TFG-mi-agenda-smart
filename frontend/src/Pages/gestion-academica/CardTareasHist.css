@@ -1,0 +1,54 @@
+.item-row-evento-historial {
+    display: grid;
+    grid-template-columns: 1fr 120px 80px;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 25px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    margin-bottom: 15px;
+    border-left: 6px solid #ccc;
+}
+
+.item-row-evento-historial.aprobado {
+    border-left-color: #27ae60;
+}
+
+.item-row-evento-historial.suspenso {
+    border-left-color: #e74c3c;
+}
+
+.nota-seccion {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid #f0f0f0;
+    border-right: 1px solid #f0f0f0;
+    padding: 0 10px;
+}
+
+.input-nota-historial {
+    width: 100%;
+    font-size: 1.5rem;
+    font-weight: 800;
+    border: none;
+    background: #f8f9fa;
+    border-radius: 6px;
+    text-align: center;
+    padding: 5px 0;
+    outline: none;
+}
+
+.btn-icon-historial {
+    background: transparent;
+    border: none;
+    color: #bfc5c9;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

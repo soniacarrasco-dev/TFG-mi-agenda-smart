@@ -57,12 +57,19 @@ const CalendarioEventos = ({ eventos = [], onEdit }) => {
                         {eventosDelDiaSeleccionado.map(ev => (
                             <div
                                 key={ev.id}
-                                className={`mini-item-evento ${ev.tipo.toLowerCase()}`}
+                                className={`mini-item-evento ${ev.tipo.toLowerCase().replace(/\s+/g, '')}`} // Mejoramos el manejo de espacios
                                 onClick={() => onEdit(ev)}
                                 style={{ cursor: 'pointer' }}
                             >
-                                <span className="mini-tipo">{ev.tipo}:</span>
-                                <strong>{ev.titulo}</strong>
+                                <div className="mini-content-wrapper" style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                                    <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                                        <span className="mini-tipo">{ev.tipo}:</span>
+                                        <strong className="mini-titulo">{ev.titulo}</strong>
+                                    </div>
+                                    <span className="mini-asignatura" style={{ fontSize: '0.75rem', color: '#08998D', fontWeight: '600' }}>
+                                        {ev.nombre_asignatura}
+                                    </span>
+                                </div>
                             </div>
                         ))}
                     </div>

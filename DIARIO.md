@@ -122,3 +122,16 @@
 
 > **Lección aprendida:** Lección aprendida: El manejo de valores nulos entre JavaScript (Frontend) y MySQL (Backend) requiere una normalización estricta. Un simple operador || puede alterar la integridad de los datos si no se diferencia entre un "valor vacío" y un "cero real".
 
+## Fecha: [13/04/2026] - Refactorización de UI y normalización de estados de calificación
+
+### Entrada 12: Sincronización visual de componentes y lógica de estados nulos
+* **Tarea:** Unificar el diseño de las tarjetas de historial con las de tareas pendientes y corregir la representación visual de las calificaciones.
+* **Dificultad:** - Las etiquetas de "Asignatura" y "Tipo" en el historial no seguían la línea estética del resto de la app.
+    - El borde lateral de las tarjetas se marcaba en rojo (suspenso) por defecto cuando una tarea aún no tenía nota asignada.
+* **Diagnóstico:** - Se detectó una falta de coherencia en las clases CSS entre `CardTareasHist` y `CardTareasPtes`.
+    - La lógica booleana en JavaScript evaluaba la ausencia de nota (`null` o `undefined`) como un valor no aprobado, disparando visualmente el estado de "suspenso".
+* **Decisión técnica:** - **UI:** Repliqué la estructura de niveles y las clases dinámicas (`.badge-tipo-color`) del componente de pendientes. Implementé una función de normalización de strings (`toLowerCase().replace(/\s+/g, '')`) para asegurar que tipos con espacios (ej. "Video conferencia") vinculen correctamente con el CSS.
+    - **Lógica de negocio:** Ajusté el cálculo de `estadoClase` para que solo devuelva "aprobado" o "suspenso" si existe un valor numérico. El borde por defecto ahora utiliza el color (`#ccc`), cambiando a verde o rojo únicamente tras la entrada de una calificación válida.
+* **Resultado:** La interfaz es ahora consistente en toda la plataforma. El historial distingue claramente entre una tarea "pendiente de calificar" y una "suspendida", mejorando la claridad cognitiva para el usuario.
+
+> **Lección aprendida:** La consistencia visual no es solo estética, es funcional. Unificar componentes reutilizando la misma lógica de CSS dinámico reduce la deuda técnica y evita que el usuario reciba feedback erróneo (como un borde rojo innecesario).

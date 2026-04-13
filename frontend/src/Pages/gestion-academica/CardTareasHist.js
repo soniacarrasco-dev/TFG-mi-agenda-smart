@@ -5,9 +5,12 @@ import './CardTareasHist.css';
 
 const CardTareasHist = ({ ev, onEdit, onDelete, onGuardarNota }) => {
     const [error, setError] = useState(false);
-    const esAprobado = ev.nota >= 5;
-    const estadoClase = esAprobado ? 'aprobado' : 'suspenso';
-    const colorNota = error ? '#e74c3c' : (esAprobado ? '#27ae60' : '#e74c3c');
+    const notaExiste = ev.nota !== null && ev.nota !== undefined;
+    const esAprobado = notaExiste && ev.nota >= 5;
+    const colorNota = error
+        ? '#e74c3c'
+        : (notaExiste ? (esAprobado ? '#27ae60' : '#e74c3c') : '#194f58');
+
     const handleChange = (e) => {
         let valor = e.target.value.replace('.', ',');
 
@@ -16,6 +19,11 @@ const CardTareasHist = ({ ev, onEdit, onDelete, onGuardarNota }) => {
 
         e.target.value = valor;
     };
+
+    let estadoClase = '';
+    if (notaExiste) {
+        estadoClase = esAprobado ? 'aprobado' : 'suspenso';
+    }
 
     // Función para renderizar múltiples archivos adjuntos
     const renderAdjuntos = (ruta_archivo) => {
@@ -74,10 +82,17 @@ const CardTareasHist = ({ ev, onEdit, onDelete, onGuardarNota }) => {
     return (
         <div className={`item-row-evento-historial ${estadoClase}`}>
             <div className="ev-info-principal">
-                <h4 title={ev.titulo}>{ev.titulo}</h4>
-                <div className="tags-container">
-                    <span className="tag-asignatura">{ev.nombre_asignatura}</span>
-                    <span className="tag-tipo">{ev.tipo}</span>
+                <h4 title={ev.titulo} style={{ margin: 0, fontSize: '1.1rem', color: '#194f58', fontWeight: 700 }}>
+                    {ev.titulo}
+                </h4>
+
+                <div className="tags-container" style={{ marginTop: '8px' }}>
+                    <div className="asig-tag-evento">
+                        {ev.nombre_asignatura}
+                    </div>
+                    <span className={`badge-tipo-color ${ev.tipo.toLowerCase().replace(/\s+/g, '')}`}>
+                        {ev.tipo}
+                    </span>
                 </div>
             </div>
 

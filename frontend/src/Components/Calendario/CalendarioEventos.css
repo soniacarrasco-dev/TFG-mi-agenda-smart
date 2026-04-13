@@ -72,7 +72,8 @@
 }
 
 .mini-item-evento {
-    padding: 10px;
+    padding: 12px;
+    transition: transform 0.2s ease;
     background: white;
     border-radius: 8px;
     border-left: 4px solid #ccc;
@@ -80,6 +81,21 @@
     display: flex;
     gap: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.mini-item-evento:hover {
+    transform: translateX(5px);
+    background: #f1f5f9;
+}
+
+.mini-titulo {
+    color: #194f58;
+}
+
+.mini-asignatura {
+    margin-top: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.2px;
 }
 
 .mini-item-evento.examen {

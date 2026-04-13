@@ -435,9 +435,9 @@ const GestionAcademica = ({ usuario }) => {
 
                         const cuerpoPeticion = {
                             titulo: eventoSeleccionado.titulo,
-                            nota: (eventoSeleccionado.nota !== undefined && eventoSeleccionado.nota !== "")
+                            nota: /* (eventoSeleccionado.nota !== undefined && eventoSeleccionado.nota !== "")
                                 ? eventoSeleccionado.nota
-                                : null,
+                                :  */null,
                             completado: true,
                             fecha_vencimiento: prepararFechaParaSQL(eventoSeleccionado.fecha_vencimiento),
                             fecha_entrega: prepararFechaParaSQL(fechaEntrega)

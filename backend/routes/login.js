@@ -138,12 +138,15 @@ router.post('/forgot-password', async (req, res) => {
         // Generar token seguro
         const token = crypto.randomBytes(32).toString("hex");
 
-        // Expira en 1 hora
-        const expira = new Date(Date.now() + 3600000);
+        // Expira en un día
+        const hoy = new Date();
+        const mañana = new Date(hoy);
+        mañana.setDate(hoy.getDate() + 1);
+        const expiraLimpia = mañana.toISOString().split('T')[0];
 
         await pool.execute(
             'UPDATE usuarios SET reset_token = ?, reset_token_expira = ? WHERE email = ?',
-            [token, expira, email]
+            [token, expiraLimpia, email]
         );
         // Link
         const link = `http://localhost:3000/reset-password?token=${token}`;

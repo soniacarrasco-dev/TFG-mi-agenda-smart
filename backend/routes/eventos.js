@@ -17,6 +17,11 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
+const limpiarFecha = (fecha) => {
+    if (!fecha || fecha === 'null' || fecha === '') return null;
+    return fecha.split('T')[0];
+};
+
 /**
  * @swagger
  * /api/eventos/{id_usuario}:
@@ -124,7 +129,7 @@ router.get('/proximos/:id_usuario', async (req, res) => {
 router.post('/', upload.array('archivos', 5), async (req, res) => {
     const { titulo, tipo, fecha, fecha_vencimiento, id_asignatura, id_usuario } = req.body;
 
-    const fechaFinal = fecha || fecha_vencimiento;
+    const fechaFinal = limpiarFecha(fecha || fecha_vencimiento);
     const rutas = req.files ? req.files.map(f => f.path).join(',') : null;
 
     if (!id_asignatura || !id_usuario || !fechaFinal) {
@@ -230,11 +235,11 @@ router.put('/:id', upload.array('archivos', 5), async (req, res) => {
 
         if (fecha_vencimiento) {
             sql += ", fecha_vencimiento = ?";
-            params.push(fecha_vencimiento);
+            params.push(limpiarFecha(fecha_vencimiento));
         }
         if (fecha_entrega) {
             sql += ", fecha_entrega = ?";
-            params.push(fecha_entrega);
+            params.push(limpiarFecha(fecha_entrega));
         }
 
         sql += " WHERE id = ?";

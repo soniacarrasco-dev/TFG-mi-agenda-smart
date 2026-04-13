@@ -1,0 +1,65 @@
+CREATE DATABASE  IF NOT EXISTS `mi_agenda_smart` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
+USE `mi_agenda_smart`;
+
+-- Estructura de tabla para `asignaturas`
+DROP TABLE IF EXISTS `asignaturas`;
+CREATE TABLE `asignaturas` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre_asignatura` varchar(255) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `id_profesor` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `usuario_id` (`id_usuario`),
+  KEY `id_profesor` (`id_profesor`),
+  CONSTRAINT `asignaturas_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `asignaturas_ibfk_2` FOREIGN KEY (`id_profesor`) REFERENCES `profesores` (`id`) ON DELETE SET NULL
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Estructura de tabla para `eventos_academicos`
+-- (Ya utilizaba DATE para vencimiento y entrega)
+DROP TABLE IF EXISTS `eventos_academicos`;
+CREATE TABLE `eventos_academicos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `titulo` varchar(150) NOT NULL,
+  `tipo` enum('Examen','Tarea','Videoconferencia','Otro') DEFAULT 'Tarea',
+  `fecha_vencimiento` date DEFAULT NULL,
+  `nota` decimal(4,2) DEFAULT NULL,
+  `completado` tinyint(1) DEFAULT 0,
+  `id_asignatura` int(11) DEFAULT NULL,
+  `id_usuario` int(11) DEFAULT NULL,
+  `ruta_archivo` varchar(255) DEFAULT NULL,
+  `fecha_entrega` date DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `asignatura_id` (`id_asignatura`),
+  KEY `usuario_id` (`id_usuario`),
+  CONSTRAINT `eventos_academicos_ibfk_1` FOREIGN KEY (`id_asignatura`) REFERENCES `asignaturas` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `eventos_academicos_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Estructura de tabla para `profesores`
+DROP TABLE IF EXISTS `profesores`;
+CREATE TABLE `profesores` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre_profesor` varchar(100) NOT NULL,
+  `email_contacto` varchar(255) DEFAULT NULL,
+  `horario_tutorias` varchar(255) DEFAULT NULL,
+  `id_usuario` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_usuario` (`id_usuario`),
+  CONSTRAINT `profesores_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Estructura de tabla para `usuarios`
+-- SE HA MODIFICADO 'reset_token_expira' DE DATETIME A DATE
+DROP TABLE IF EXISTS `usuarios`;
+CREATE TABLE `usuarios` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `apellidos` varchar(50) NOT NULL,
+  `reset_token` varchar(255) DEFAULT NULL,
+  `reset_token_expira` date DEFAULT NULL, 
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

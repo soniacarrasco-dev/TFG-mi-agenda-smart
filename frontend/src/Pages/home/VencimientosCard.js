@@ -3,6 +3,13 @@ import RowEvento from './RowEvento';
 
 const VencimientosCard = ({ proximos }) => {
 
+    /**
+     * Genera el conjunto de próximos vencimientos que se muestran en la tarjeta.
+     * - Excluye eventos completados.
+     * - Ordena por fecha de vencimiento.
+     * - Devuelve hasta 5 eventos, priorizando los eventos en los próximos 7 días.
+     * @returns {Array} Eventos ordenados y filtrados.
+     */
     const obtenerEventosAMostrar = () => {
         const hoy = new Date();
         hoy.setHours(0, 0, 0, 0);
@@ -19,6 +26,7 @@ const VencimientosCard = ({ proximos }) => {
             })
             .sort((a, b) => new Date(a.fecha_vencimiento) - new Date(b.fecha_vencimiento));
 
+        // Obtiene los eventos que vencen dentro de los próximos 7 días y no están completados.
         const deLaSemana = futuros.filter(ev => {
             const f = new Date(ev.fecha_vencimiento);
             f.setHours(0, 0, 0, 0);

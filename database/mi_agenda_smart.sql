@@ -1,10 +1,10 @@
-CREATE DATABASE  IF NOT EXISTS `mi_agenda_smart` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
+CREATE DATABASE  IF NOT EXISTS `mi_agenda_smart` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `mi_agenda_smart`;
--- MySQL dump 10.13  Distrib 8.0.38, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.45, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: mi_agenda_smart
+-- Host: localhost    Database: mi_agenda_smart
 -- ------------------------------------------------------
--- Server version	5.5.5-10.4.32-MariaDB
+-- Server version	8.0.45
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -25,16 +25,16 @@ DROP TABLE IF EXISTS `asignaturas`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `asignaturas` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre_asignatura` varchar(255) NOT NULL,
-  `id_usuario` int(11) NOT NULL,
-  `id_profesor` int(11) DEFAULT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nombre_asignatura` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `id_usuario` int NOT NULL,
+  `id_profesor` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `usuario_id` (`id_usuario`),
   KEY `id_profesor` (`id_profesor`),
   CONSTRAINT `asignaturas_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE,
   CONSTRAINT `asignaturas_ibfk_2` FOREIGN KEY (`id_profesor`) REFERENCES `profesores` (`id`) ON DELETE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,7 +43,7 @@ CREATE TABLE `asignaturas` (
 
 LOCK TABLES `asignaturas` WRITE;
 /*!40000 ALTER TABLE `asignaturas` DISABLE KEYS */;
-INSERT INTO `asignaturas` VALUES (10,'DW Entorno Cliente',2,5),(11,'DWE Servidor',2,6),(12,'Despliegue de aplicaciones web',2,23),(13,'Diseño de interfaces web',2,6),(14,'Inglés',2,24),(15,'HLC (Blockchain)',2,25),(16,'Itinerario II',2,26),(21,'prueba',2,NULL);
+INSERT INTO `asignaturas` VALUES (10,'DW Entorno Cliente',2,5),(11,'DWE Servidor',2,6),(12,'Despliegue de aplicaciones web',2,23),(13,'Diseño de interfaces web',2,6),(14,'Inglés',2,24),(15,'HLC (Blockchain)',2,25),(16,'Itinerario II',2,26),(21,'prueba',2,NULL),(22,'Dwe Cliente',3,36),(23,'Dwe Servidor',3,37),(24,'Despliegue de aplicaciones web',3,38),(25,'Diseño de interfaces',3,37),(26,'Inglés',3,39),(27,'HLC (Blockchain)',3,40),(28,'Itinerario II',3,41);
 /*!40000 ALTER TABLE `asignaturas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -55,22 +55,22 @@ DROP TABLE IF EXISTS `eventos_academicos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `eventos_academicos` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `titulo` varchar(150) NOT NULL,
-  `tipo` enum('Examen','Tarea','Videoconferencia','Otro') DEFAULT 'Tarea',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `titulo` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
+  `tipo` enum('Examen','Tarea','Videoconferencia','Otro') COLLATE utf8mb4_general_ci DEFAULT 'Tarea',
   `fecha_vencimiento` date DEFAULT NULL,
   `nota` decimal(4,2) DEFAULT NULL,
-  `completado` tinyint(1) DEFAULT 0,
-  `id_asignatura` int(11) DEFAULT NULL,
-  `id_usuario` int(11) DEFAULT NULL,
-  `ruta_archivo` varchar(255) DEFAULT NULL,
+  `completado` tinyint(1) DEFAULT '0',
+  `id_asignatura` int DEFAULT NULL,
+  `id_usuario` int DEFAULT NULL,
+  `ruta_archivo` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `fecha_entrega` date DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `asignatura_id` (`id_asignatura`),
   KEY `usuario_id` (`id_usuario`),
   CONSTRAINT `eventos_academicos_ibfk_1` FOREIGN KEY (`id_asignatura`) REFERENCES `asignaturas` (`id`) ON DELETE CASCADE,
   CONSTRAINT `eventos_academicos_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -79,7 +79,7 @@ CREATE TABLE `eventos_academicos` (
 
 LOCK TABLES `eventos_academicos` WRITE;
 /*!40000 ALTER TABLE `eventos_academicos` DISABLE KEYS */;
-INSERT INTO `eventos_academicos` VALUES (12,'UD1 Caso práctico','Tarea','2025-10-06',10.00,1,10,2,'','2025-10-11'),(13,'UD5 CASO PRACTICO','Tarea','2026-03-30',0.00,0,10,2,NULL,NULL),(14,'UD2 CASO PRACTICO','Tarea','2025-11-24',7.50,1,10,2,NULL,'2025-11-24'),(15,'Examen eliminatorio','Examen','2026-02-01',10.00,1,10,2,'','2026-02-04'),(16,'UD3 CASO PRACTICO','Tarea','2024-12-17',NULL,1,10,2,'','2025-12-11'),(17,'UD4 CASO PRACTICO','Tarea','2026-02-09',NULL,1,10,2,'','2026-02-04'),(18,'UD5 CASO PRACTICO','Tarea','2026-04-18',NULL,0,12,2,NULL,NULL),(19,'UD7 CASO PRACTICO','Tarea','2026-04-17',NULL,0,11,2,NULL,NULL),(20,'UD6 CASO PRACTICO','Tarea','2026-05-29',NULL,0,12,2,NULL,NULL),(21,'UD5 CASO PRACTICO','Tarea','2026-03-31',NULL,0,13,2,NULL,NULL),(22,'UD4 CASO PRACTICO','Tarea','2026-04-19',NULL,0,16,2,NULL,NULL),(27,'Video presentación editado','Videoconferencia','2026-04-08',0.00,0,14,2,'uploads\\1775826318914.png',NULL),(32,'prueba 16','Examen','2026-04-14',NULL,1,10,2,'','2026-04-11');
+INSERT INTO `eventos_academicos` VALUES (12,'UD1 Caso práctico','Tarea','2025-10-06',10.00,1,10,2,'','2025-10-11'),(13,'UD5 CASO PRACTICO','Tarea','2026-03-30',0.00,0,10,2,NULL,NULL),(14,'UD2 CASO PRACTICO','Tarea','2025-11-24',7.50,1,10,2,NULL,'2025-11-24'),(15,'Examen eliminatorio','Examen','2026-02-01',10.00,1,10,2,'','2026-02-04'),(16,'UD3 CASO PRACTICO','Tarea','2024-12-17',NULL,1,10,2,'','2025-12-11'),(17,'UD4 CASO PRACTICO','Tarea','2026-02-09',NULL,1,10,2,'','2026-02-04'),(18,'UD5 CASO PRACTICO','Tarea','2026-04-18',NULL,0,12,2,NULL,NULL),(19,'UD7 CASO PRACTICO','Tarea','2026-04-17',NULL,0,11,2,NULL,NULL),(20,'UD6 CASO PRACTICO','Tarea','2026-05-29',NULL,0,12,2,NULL,NULL),(21,'UD5 CASO PRACTICO','Tarea','2026-03-31',NULL,0,13,2,NULL,NULL),(22,'UD4 CASO PRACTICO','Tarea','2026-04-19',NULL,0,16,2,NULL,NULL),(27,'Video presentación editado','Videoconferencia','2026-04-08',0.00,0,14,2,'uploads\\1775826318914.png',NULL),(32,'prueba 16','Examen','2026-04-14',NULL,1,10,2,'','2026-04-11'),(38,'UD1 CASO PRACTICO','Tarea','2025-10-13',10.00,1,22,3,'','2025-10-14'),(39,'UD2 CASO PRACTICO','Tarea','2025-11-29',7.50,1,22,3,'','2025-11-24'),(40,'UD3 CASO PRACTICO','Tarea','2026-01-06',NULL,1,22,3,'','2026-01-07'),(41,'UD4 CASO PRACTICO','Tarea','2026-02-22',NULL,1,22,3,'','2026-02-17'),(42,'UD5 CASO PRACTICO','Tarea','2026-03-29',NULL,1,22,3,'','2026-03-23'),(43,'UD6 CASO PRACTICO','Tarea','2026-05-04',NULL,0,22,3,'',NULL),(44,'UD1 CASO PRACTICO','Tarea','2025-10-12',10.00,1,23,3,'','2026-04-13'),(45,'UD2 CASO PRACTICO','Tarea','2025-11-26',10.00,1,23,3,'','2025-11-24'),(46,'UD3 CASO PRACTICO','Tarea','2025-12-29',10.00,1,23,3,'','2025-12-17'),(47,'UD4 CASO PRACTICO','Tarea','2026-01-29',10.00,1,23,3,'','2026-01-24'),(48,'UD5 CASO PRACTICO','Tarea','2026-02-26',10.00,1,23,3,'','2026-02-06'),(49,'UD6 CASO PRACTICO','Tarea','2026-03-29',10.00,1,23,3,'','2026-03-12'),(50,'UD7 CASO PRACTICO','Tarea','2026-04-16',NULL,1,23,3,'','2026-04-09'),(51,'UD8 CASO PRACTICO','Tarea','2026-04-30',NULL,0,23,3,'',NULL),(52,'UD1 CASO PRACTICO','Tarea','2025-10-17',10.00,1,24,3,'','2025-10-18'),(53,'UD2 CASO PRACTICO','Tarea','2025-11-13',10.00,1,24,3,'','2025-11-14'),(54,'UD3 CASO PRACTICO','Tarea','2026-01-23',10.00,1,24,3,'','2026-01-19'),(55,'UD4 CASO PRACTICO','Tarea','2026-03-13',9.75,1,24,3,'','2026-03-03'),(56,'UD5 CASO PRACTICO','Tarea','2026-04-18',NULL,0,24,3,'',NULL),(57,'UD6 CASO PRACTICO','Tarea','2026-05-29',NULL,0,24,3,'',NULL),(58,'UD1 CASO PRACTICO','Tarea','2025-10-12',10.00,1,25,3,'','2025-10-13'),(59,'UD2 CASO PRACTICO','Tarea','2025-11-02',10.00,1,25,3,'','2025-11-03'),(60,'UD3 CASO PRACTICO','Tarea','2025-12-29',10.00,1,25,3,'','2025-12-19'),(61,'UD4 CASO PRACTICO','Tarea','2026-02-26',10.00,1,25,3,'','2026-02-16'),(62,'UD5 CASO PRACTICO','Tarea','2026-03-29',10.00,1,25,3,'','2026-03-24'),(63,'UD6 CASO PRACTICO','Tarea','2026-04-30',NULL,0,25,3,'',NULL),(64,'UD1 CASO PRACTICO','Tarea','2025-10-05',9.66,1,26,3,'','2025-10-06'),(65,'UD2 CASO PRACTICO','Tarea','2025-11-09',9.60,1,26,3,'','2025-11-10'),(66,'UD3 CASO PRACTICO','Tarea','2026-01-16',10.00,1,26,3,'','2025-12-27'),(67,'UD4 CASO PRACTICO','Tarea','2026-02-20',10.00,1,26,3,'','2026-02-06'),(68,'UD5 CASO PRACTICO','Tarea','2026-03-28',10.00,1,26,3,'','2026-03-07'),(69,'UD6 CASO PRACTICO','Tarea','2026-05-04',NULL,0,26,3,'',NULL),(70,'UD1 CASO PRACTICO','Tarea','2025-10-24',10.00,1,27,3,'','2025-10-25'),(71,'UD2 CASO PRACTICO','Tarea','2025-11-29',10.00,1,27,3,'','2025-11-24'),(72,'UD3 CASO PRACTICO','Tarea','2025-12-17',10.00,1,27,3,'','2025-12-08'),(73,'UD4 CASO PRACTICO','Tarea','2026-01-13',9.50,1,27,3,'','2025-12-29'),(74,'UD5 CASO PRACTICO','Tarea','2026-02-06',9.75,1,27,3,'','2026-01-26'),(75,'UD6 CASO PRACTICO','Tarea','2026-03-13',10.00,1,27,3,'','2026-03-04'),(76,'UD8 CASO PRACTICO','Tarea','2026-04-30',NULL,0,27,3,'',NULL),(77,'UD1 CASO PRACTICO','Tarea','2025-10-05',10.00,1,28,3,'','2025-10-06'),(78,'UD2 CASO PRACTICO','Tarea','2026-01-09',10.00,1,28,3,'','2025-12-27'),(79,'UD3 CASO PRACTICO','Tarea','2026-02-27',9.00,1,28,3,'','2026-02-23'),(80,'UD4 CASO PRACTICO','Tarea','2026-04-17',10.00,1,28,3,'','2026-03-25');
 /*!40000 ALTER TABLE `eventos_academicos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -91,15 +91,15 @@ DROP TABLE IF EXISTS `profesores`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `profesores` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre_profesor` varchar(100) NOT NULL,
-  `email_contacto` varchar(255) DEFAULT NULL,
-  `horario_tutorias` varchar(255) DEFAULT NULL,
-  `id_usuario` int(11) DEFAULT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nombre_profesor` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `email_contacto` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `horario_tutorias` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `id_usuario` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_usuario` (`id_usuario`),
   CONSTRAINT `profesores_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -108,7 +108,7 @@ CREATE TABLE `profesores` (
 
 LOCK TABLES `profesores` WRITE;
 /*!40000 ALTER TABLE `profesores` DISABLE KEYS */;
-INSERT INTO `profesores` VALUES (5,'Maria Jesus Rodríguez Sanchez','maria@gmail.com','Lunes de 8:00 a 10:00 h',2),(6,'Alejandro Romero Morales','alejandroromero@cesurformacion.com','Martes de 10:00 a 12:00 h',2),(23,'Carlos Pastor Paz','carlos@gmail.com','Miercoles de 10:00 a 12:00 h',2),(24,'Laura Torres Jiménez','',NULL,2),(25,'Daniel de la Torre Bolos','',NULL,2),(26,'Paloma Ales Hermosa','',NULL,2);
+INSERT INTO `profesores` VALUES (5,'Maria Jesus Rodríguez Sanchez','maria@gmail.com','Lunes de 8:00 a 10:00 h',2),(6,'Alejandro Romero Morales','alejandroromero@cesurformacion.com','Martes de 10:00 a 12:00 h',2),(23,'Carlos Pastor Paz','carlos@gmail.com','Miercoles de 10:00 a 12:00 h',2),(24,'Laura Torres Jiménez','',NULL,2),(25,'Daniel de la Torre Bolos','',NULL,2),(26,'Paloma Ales Hermosa','',NULL,2),(36,'María Jesús Rodríguez Sánchez','maria@gmail.com',NULL,3),(37,'Alejandro Romero Morales','alejandro@gmail.com',NULL,3),(38,'Carlos Pastor Paz','carlos@gmail.com',NULL,3),(39,'Laura Torres Jimenez','laura@gmail.com',NULL,3),(40,'Daniel de la Torre Bolós','daniel@gmail.com',NULL,3),(41,'Paloma Ales Hermosa','paloma@gmail.com',NULL,3);
 /*!40000 ALTER TABLE `profesores` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -120,12 +120,12 @@ DROP TABLE IF EXISTS `usuarios`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `usuarios` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `apellidos` varchar(50) NOT NULL,
-  `reset_token` varchar(255) DEFAULT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `apellidos` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `reset_token` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `reset_token_expira` date DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
@@ -159,4 +159,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-04-13 19:19:14
+-- Dump completed on 2026-04-14  9:16:37

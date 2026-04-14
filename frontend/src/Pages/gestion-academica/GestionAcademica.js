@@ -40,7 +40,7 @@ const GestionAcademica = ({ usuario }) => {
 
     // --- EFECTOS ---
     useEffect(() => {
-
+        // Sincroniza la lista de asignaturas y eventos cuando cambia el usuario activo.
         if (usuario?.id) {
             fetchDatos();
             fetchProfesores();
@@ -77,6 +77,9 @@ const GestionAcademica = ({ usuario }) => {
     }, [eventos, location.state, modalAbiertoDesdeNav]);
 
     // --- FUNCIONES API ---
+    /**
+     * Recupera la lista de profesores asociados al usuario autenticado.
+     */
     const fetchProfesores = async () => {
         try {
             const res = await fetch(`http://localhost:3001/api/profesores/${usuario.id}`);
@@ -84,6 +87,9 @@ const GestionAcademica = ({ usuario }) => {
         } catch (error) { console.error(error); }
     };
 
+    /**
+     * Recupera asignaturas y eventos en paralelo para minimizar latencia.
+     */
     const fetchDatos = async () => {
         try {
             const [resAsig, resEv] = await Promise.all([
@@ -96,6 +102,10 @@ const GestionAcademica = ({ usuario }) => {
     };
 
     // FUNCIÓN PARA GUARDAR NUEVO PROFESOR
+    /**
+     * Crea un nuevo profesor y actualiza el selector de asignaturas.
+     * Valida el correo solo si se ha proporcionado.
+     */
     const guardarProfesor = async (e) => {
         e.preventDefault();
 
@@ -130,6 +140,10 @@ const GestionAcademica = ({ usuario }) => {
         }
     };
 
+    /**
+     * Elimina un evento o una asignatura y mantiene el estado local coherente.
+     * Al borrar una asignatura también elimina sus eventos relacionados.
+     */
     const ejecutarEliminacion = async () => {
         const { id, tipo } = itemAEliminar;
         const ruta = tipo === 'evento' ? `eventos/${id}` : `asignaturas/${id}`;
@@ -147,6 +161,10 @@ const GestionAcademica = ({ usuario }) => {
         } catch (error) { console.error(error); }
     };
 
+    /**
+     * Crea o actualiza una asignatura según el modo de edición.
+     * Mantiene la relación con el usuario actual.
+     */
     const guardarAsignatura = async (e) => {
         e.preventDefault();
         const metodo = editando ? "PUT" : "POST";
@@ -175,6 +193,10 @@ const GestionAcademica = ({ usuario }) => {
         } catch (error) { console.error("Error de conexión:", error); }
     };
 
+    /**
+     * Crea o actualiza un evento, gestionando adjuntos y campos de fecha.
+     * En modo edición preserva estado de completado y rutas de archivo existentes.
+     */
     const guardarEvento = async (e) => {
         e.preventDefault();
         const formData = new FormData();
@@ -227,6 +249,9 @@ const GestionAcademica = ({ usuario }) => {
         }
     };
 
+    /**
+     * Resetea los estados de modal y los formularios al cerrar cualquier diálogo.
+     */
     const cerrarModales = () => {
         setMostrarModalAsig(false);
         setMostrarModalEvento(false);
@@ -243,6 +268,10 @@ const GestionAcademica = ({ usuario }) => {
         setMostrarModalAsig(true);
     };
 
+    /**
+     * Prepara el formulario de edición de evento, normalizando la fecha para el input.
+     * Ajusta la fecha recuperada del servidor para evitar cambios indeseados por zona horaria.
+     */
     const prepararEdicionEvento = (ev) => {
         setEditando(true);
         setIdEnEdicion(ev.id);
@@ -274,7 +303,13 @@ const GestionAcademica = ({ usuario }) => {
         return coincideAsig && coincideEstado;
     });
 
+    // Filtra por asignatura y por estado de completado según la vista actual.
+
     // Calcular la nota media de la asignatura filtrada
+    /**
+     * Calcula la nota media de los eventos completados para la asignatura seleccionada.
+     * Excluye valores no numéricos y notas vacías para evitar distorsionar el promedio.
+     */
     const calcularMedia = () => {
         if (!filtroAsignatura) return null;
 
@@ -304,6 +339,10 @@ const GestionAcademica = ({ usuario }) => {
     const notaMedia = calcularMedia();
 
     // Función para eliminar un archivo de la lista de rutas existentes (solo en edición)
+    /**
+     * Elimina una ruta de archivo existente del evento en edición.
+     * Mantiene las rutas restantes como una cadena separada por comas.
+     */
     const eliminarRutaArchivo = (rutaAEliminar) => {
         const nuevasRutas = nuevoEvento.ruta_archivo
             .split(',')

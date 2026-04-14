@@ -14,7 +14,7 @@ const CalendarioEventos = ({ eventos = [], onEdit }) => {
             // Filtra los eventos de este día específico
             const eventosDia = eventos.filter(ev => {
                 const fEv = new Date(ev.fecha_vencimiento).toISOString().split('T')[0];
-                return fEv === fechaStr;
+                return fEv === fechaStr && !ev.completado;
             });
 
             if (eventosDia.length > 0) {
@@ -36,7 +36,7 @@ const CalendarioEventos = ({ eventos = [], onEdit }) => {
     const eventosDelDiaSeleccionado = eventos.filter(ev => {
         const fEv = new Date(ev.fecha_vencimiento).toISOString().split('T')[0];
         const fSel = fechaSeleccionada.toISOString().split('T')[0];
-        return fEv === fSel;
+        return fEv === fSel && !ev.completado;
     });
 
     return (

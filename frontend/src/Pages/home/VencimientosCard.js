@@ -15,7 +15,7 @@ const VencimientosCard = ({ proximos }) => {
             .filter(ev => {
                 const f = new Date(ev.fecha_vencimiento);
                 f.setHours(0, 0, 0, 0);
-                return f >= hoy;
+                return f >= hoy && !ev.completado;
             })
             .sort((a, b) => new Date(a.fecha_vencimiento) - new Date(b.fecha_vencimiento));
 

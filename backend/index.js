@@ -5,6 +5,8 @@ const swaggerSpecs = require('./config/swagger');
 require('dotenv').config();
 const path = require('path');
 
+require('./cron/notificacion.cron');
+
 const app = express();
 
 // Middlewares globales
@@ -18,6 +20,7 @@ const asignaturaRoutes = require('./routes/asignaturas');
 const eventoRoutes = require('./routes/eventos');
 const profesorRoutes = require('./routes/profesores');
 const perfilRoutes = require('./routes/perfil');
+const dashboardRoutes = require('./routes/dashboard');
 
 // Registrar rutas en la app
 app.use('/api', loginRoutes);
@@ -25,6 +28,7 @@ app.use('/api/asignaturas', asignaturaRoutes);
 app.use('/api/eventos', eventoRoutes);
 app.use('/api/profesores', profesorRoutes);
 app.use('/api', perfilRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 
 // Ruta para la documentación de Swagger
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));

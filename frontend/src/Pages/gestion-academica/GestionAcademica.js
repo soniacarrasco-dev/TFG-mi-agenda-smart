@@ -76,6 +76,12 @@ const GestionAcademica = ({ usuario }) => {
 
     }, [eventos, location.state, modalAbiertoDesdeNav]);
 
+    useEffect(() => {
+        fetch("/api/dashboard")
+            .then(res => res.json())
+            .then(data => setEventos(data));
+    }, []);
+
     // --- FUNCIONES API ---
     /**
      * Recupera la lista de profesores asociados al usuario autenticado.

@@ -135,3 +135,32 @@
 * **Resultado:** La interfaz es ahora consistente en toda la plataforma. El historial distingue claramente entre una tarea "pendiente de calificar" y una "suspendida", mejorando la claridad cognitiva para el usuario.
 
 > **Lección aprendida:** La consistencia visual no es solo estética, es funcional. Unificar componentes reutilizando la misma lógica de CSS dinámico reduce la deuda técnica y evita que el usuario reciba feedback erróneo (como un borde rojo innecesario).
+
+## Fecha: [17/04/2026] - Implementación de sistema de notificaciones por email con cron
+
+
+### Entrada 13: Automatización de avisos de eventos y depuración completa del flujo backend
+* **Tarea:** Implementar un sistema automático de notificaciones por email que avise al usuario antes del vencimiento de eventos académicos.
+* **Dificultad:** La integración implicó múltiples problemas encadenados:
+- Errores de rutas (MODULE_NOT_FOUND) al organizar nuevos archivos (cron, services).
+- Confusión entre db.query y pool.query debido a la estructura de exportación del archivo de conexión.
+- Duplicidad de transporter (Mailtrap vs Gmail), generando conflictos de variables.
+- Fallos de autenticación con Gmail (Invalid login 535) por uso incorrecto de credenciales.
+- Problemas conceptuales al mezclar responsabilidades entre controllers, rutas y servicios.
+* **Diagnóstico:** Se identificó que los errores no provenían de una única causa, sino de la falta de coherencia en la arquitectura del backend:
+- Imports incorrectos y rutas mal referenciadas.
+- Uso inconsistente del pool de conexión a la base de datos.
+- Configuración duplicada del envío de correos.
+* **Decisión técnica:**
+- Implementé un sistema de tareas programadas usando node-cron, configurado inicialmente para ejecutarse cada minuto en entorno de desarrollo.
+- Centralicé la configuración de base de datos y envío de emails en un único archivo (db.js), exportando pool y transporter.
+- Eliminé el archivo mailer.js para evitar duplicidades y conflictos.
+- Adapté todas las consultas a pool.query() para trabajar correctamente con mysql2/promise.
+- Configuré Gmail con App Password para permitir el envío real de correos desde la aplicación.
+- Separé claramente responsabilidades:
+  - cron/ → ejecución automática
+  - services/ → lógica de negocio
+  - controllers/ → gestión de peticiones
+* **Resultado:** El sistema detecta automáticamente eventos próximos a su vencimiento y envía notificaciones por email de forma correcta. En modo desarrollo, se ejecuta cada minuto, permitiendo validar el flujo completo en tiempo real. Los emails se envían correctamente a cuentas reales y los eventos se actualizan en base de datos para evitar envíos duplicados.
+
+> **Lección aprendida:** La implementación de funcionalidades transversales (como tareas automáticas y envío de emails) requiere una arquitectura clara y coherente. Centralizar configuraciones críticas (como la conexión a base de datos o el servicio de correo) evita errores difíciles de depurar y mejora la mantenibilidad del sistema.

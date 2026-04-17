@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  backend:
+    build: .
+    ports:
+      - "3001:3001"
+    depends_on:
+      - mysql
+    environment:
+      DB_HOST: mysql
+      DB_USER: root
+      DB_PASS: root
+      DB_NAME: mi_agenda_smart
+      EMAIL_USER: aorajake@gmail.com
+      EMAIL_PASS: tu_app_password
+    volumes:
+      - .:/app
+    restart: always
+
+  mysql:
+    image: mysql:8
+    container_name: mysql_agenda
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mi_agenda_smart
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/init:/docker-entrypoint-initdb.d
+
+volumes:
+  mysql_data:

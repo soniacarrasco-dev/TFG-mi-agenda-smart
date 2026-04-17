@@ -164,3 +164,25 @@
 * **Resultado:** El sistema detecta automáticamente eventos próximos a su vencimiento y envía notificaciones por email de forma correcta. En modo desarrollo, se ejecuta cada minuto, permitiendo validar el flujo completo en tiempo real. Los emails se envían correctamente a cuentas reales y los eventos se actualizan en base de datos para evitar envíos duplicados.
 
 > **Lección aprendida:** La implementación de funcionalidades transversales (como tareas automáticas y envío de emails) requiere una arquitectura clara y coherente. Centralizar configuraciones críticas (como la conexión a base de datos o el servicio de correo) evita errores difíciles de depurar y mejora la mantenibilidad del sistema.
+
+### Entrada 14: Contenerización del sistema y automatización del entorno
+* **Tarea:** Dockerizar el backend y la base de datos MySQL para permitir la ejecución completa del proyecto en un entorno aislado y reproducible.
+* **Dificultad:** Durante el proceso surgieron varios problemas:
+- Errores de conexión entre backend y base de datos al usar localhost en lugar del nombre del servicio.
+- Diferencias entre PowerShell y CMD en Windows al ejecutar comandos de importación/exportación (<, >).
+- Base de datos vacía al levantar el contenedor, provocando errores 500 en la aplicación.
+- Desajuste entre el nombre de la base de datos configurado en Docker (mi_agenda) y el nombre real (mi_agenda_smart).
+* **Diagnóstico:** Se identificó que los errores no estaban relacionados con Docker en sí, sino con:
+- Configuración incorrecta de variables de entorno.
+- Falta de sincronización entre la base de datos real y el archivo .sql.
+- Uso incorrecto de rutas y comandos en entorno Windows.
+* **Decisión técnica:**
+- Implementé un Dockerfile para contenerizar el backend Node.js.
+- Configuré docker-compose.yml para orquestar dos servicios: backend y MySQL.
+- Ajusté la conexión a base de datos utilizando DB_HOST=mysql para comunicación interna entre contenedores.
+- Exporté la base de datos actual desde el contenedor mediante mysqldump para asegurar un estado actualizado.
+- Automatizé la importación inicial utilizando el directorio /docker-entrypoint-initdb.d, eliminando la necesidad de comandos manuales.
+- Sincronicé el nombre de la base de datos en todas las capas del proyecto (Docker, backend y SQL).
+* **Resultado:** El sistema completo se ejecuta correctamente mediante un único comando (docker-compose up). El backend se conecta a la base de datos sin errores, el login funciona correctamente y los datos se mantienen persistentes gracias al uso de volúmenes. Además, la base de datos se inicializa automáticamente con datos reales, facilitando la puesta en marcha del proyecto por terceros.
+
+> **Lección aprendida:** Docker no solo simplifica el despliegue, sino que obliga a mantener una configuración coherente entre todos los componentes del sistema. La correcta gestión de variables de entorno, nombres de servicios y datos iniciales es clave para evitar errores difíciles de depurar.

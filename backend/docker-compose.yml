@@ -13,7 +13,7 @@ services:
       DB_PASS: root
       DB_NAME: mi_agenda_smart
       EMAIL_USER: aorajake@gmail.com
-      EMAIL_PASS: tu_app_password
+      EMAIL_PASS: vgswmpzdeligceol
     volumes:
       - .:/app
     restart: always

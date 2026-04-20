@@ -1,6 +1,6 @@
 const mysql = require('mysql2/promise');
 const nodemailer = require('nodemailer');
-require('dotenv').config();
+require('dotenv').config({ path: require('path').resolve(__dirname, '../../.env') });
 
 const pool = mysql.createPool({
     host: process.env.DB_HOST,
@@ -14,8 +14,8 @@ const pool = mysql.createPool({
 const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-        user: "aorajake@gmail.com",
-        pass: "vgsw mpzd elig ceol"
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
     }
 });
 

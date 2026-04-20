@@ -2,20 +2,16 @@ version: "3.8"
 
 services:
   backend:
-    build: .
+    build: ./backend
     ports:
       - "3001:3001"
     depends_on:
-      - mysql
-    environment:
-      DB_HOST: mysql
-      DB_USER: root
-      DB_PASS: root
-      DB_NAME: mi_agenda_smart
-      EMAIL_USER: aorajake@gmail.com
-      EMAIL_PASS: vgswmpzdeligceol
+      mysql:
+        condition: service_started
+    env_file:
+      - .env
     volumes:
-      - .:/app
+      - ./backend:/app
     restart: always
 
   mysql:
@@ -29,7 +25,7 @@ services:
       - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./docker/init:/docker-entrypoint-initdb.d
+      - ./docker/init/init.sql:/docker-entrypoint-initdb.d/init.sql
 
 volumes:
   mysql_data:

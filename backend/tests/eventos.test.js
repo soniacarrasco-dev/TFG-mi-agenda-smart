@@ -1,7 +1,6 @@
 const request = require('supertest');
 const express = require('express');
 
-// Mock de la BD
 jest.mock('../config/db', () => ({
     pool: {
         execute: jest.fn()
@@ -9,7 +8,7 @@ jest.mock('../config/db', () => ({
 }));
 
 const { pool } = require('../config/db');
-const eventosRouter = require('../routes/eventos'); // ajusta ruta
+const eventosRouter = require('../routes/eventos');
 
 const app = express();
 app.use(express.json());

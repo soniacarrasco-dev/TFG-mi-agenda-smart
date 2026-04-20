@@ -149,7 +149,7 @@ router.post('/forgot-password', async (req, res) => {
             [token, expiraLimpia, email]
         );
         // Link
-        const link = `http://192.168.1.75/reset-password?token=${token}`;
+        const link = `http://localhost:3000/reset-password?token=${token}`;
 
         await transporter.sendMail({
             from: '"Mi Agenda SMART" <soporte@miagenda.com>',

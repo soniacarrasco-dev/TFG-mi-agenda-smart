@@ -4,7 +4,7 @@ const { checkTasksToNotify, sendEmail } = require("../services/notificacion.serv
 
 // Ejecutar una vez al día (a las 09:00 por ejemplo)
 /* cron.schedule("0 9 * * *", async () => { */
-cron.schedule("0 9 * * *", async () => {
+cron.schedule("* * * * *", async () => {
     console.log("Ejecutando verificación de eventos...");
 
     try {

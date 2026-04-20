@@ -38,14 +38,13 @@ DB_NAME=mi_agenda_smart
 PORT=3001
 
 ### 3. Levantar el proyecto con Docker
-1. Navega a la carpeta del servidor: `cd backend`.
-2. Levanta el contenedor: `docker-compose up --build`.
+1. Desde la raíz del proyecto levanta el contenedor: `docker-compose up --build`.
 Esto levantará: 
-- Backend (Node.js)
-- Base de datos MySQL
-3. Abre otra terminal nueva y navega a la carpeta del cliente: `cd frontend`.
+ - Backend (Node.js)
+ - Base de datos MySQL
+2. Abre otra terminal nueva y navega a la carpeta del cliente: `cd frontend`.
 - Ejecuta la app: `npm start`.
-4. Accede en el navegador a `http://localhost:3000/`
+3. Accede en el navegador a `http://localhost:3000/`
 
 ### 4. Acceso a la aplicación
  - Frontend: http://localhost:3000

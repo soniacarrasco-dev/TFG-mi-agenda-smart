@@ -186,3 +186,44 @@
 * **Resultado:** El sistema completo se ejecuta correctamente mediante un único comando (docker-compose up). El backend se conecta a la base de datos sin errores, el login funciona correctamente y los datos se mantienen persistentes gracias al uso de volúmenes. Además, la base de datos se inicializa automáticamente con datos reales, facilitando la puesta en marcha del proyecto por terceros.
 
 > **Lección aprendida:** Docker no solo simplifica el despliegue, sino que obliga a mantener una configuración coherente entre todos los componentes del sistema. La correcta gestión de variables de entorno, nombres de servicios y datos iniciales es clave para evitar errores difíciles de depurar.
+
+## Fecha: [20/04/2026] - Implementación de testing automático (Jest + Cypress)
+* **Entrada 15:** Implementación de pruebas unitarias y E2E con mocks y depuración de errores
+* **Tarea:** Implementar pruebas automáticas en el proyecto utilizando Jest para el backend y Cypress para pruebas End-to-End del frontend, cumpliendo los requisitos del proyecto de DAW.
+* **Dificultad:** La implementación presentó múltiples problemas encadenados:
+- Configuración inicial de Jest inexistente (Error: no test specified).
+- Fallos en el test de login con errores 500 debido a dependencias no controladas (bcrypt, JWT).
+- Conflictos entre librerías (bcrypt vs bcryptjs).
+- Variables de entorno (JWT_SECRET) no disponibles en el entorno de testing.
+- Problemas de integridad en E2E al usar datos mockeados que no existían en la base de datos (errores de clave foránea).
+- Inconsistencias entre los datos mockeados y los datos reales esperados por los componentes React, provocando errores como toLowerCase of undefined.
+- Problemas de sincronización en Cypress al esperar peticiones que no siempre se ejecutaban.
+* **Diagnóstico:**
+- Se identificó que los errores no provenían de una única causa, sino de varios factores típicos en testing:
+- Dependencias externas no mockeadas correctamente.
+- Diferencias entre entorno real y entorno de test.
+- Datos mock incompletos o inconsistentes.
+- Mal uso de interceptores en Cypress.
+* **Decisión técnica:**
+- Jest (backend):
+  - Se configuró correctamente el script "test": "jest" en package.json.
+  - Se mockearon dependencias externas:
+- Base de datos (pool.execute)
+  - Librería bcryptjs
+  - Se añadió manualmente la variable de entorno JWT_SECRET en los tests.
+  - Se adaptaron los datos mock para que coincidieran exactamente con la estructura real (usuario.password).
+- Cypress (E2E):
+  - Se implementaron interceptores (cy.intercept) para simular respuestas del backend.
+  - Se creó un sistema de mocks dinámicos para eventos, permitiendo simular un backend real sin depender de la base de datos.
+  - Se corrigieron errores de integridad referencial evitando llamadas reales a MySQL.
+  - Se ajustaron los mocks para incluir todos los campos necesarios y evitar errores en el renderizado de React.
+  - Se optimizó la sincronización de tests utilizando cy.wait() sobre peticiones clave (POST) en lugar de GET innecesarios.
+* **Resultado:**
+- Se logró implementar un sistema completo de testing automático:
+- Pruebas unitarias del backend funcionando correctamente con Jest.
+- Pruebas E2E del flujo completo de usuario (login + creación de evento) con Cypress.
+- Tests estables, independientes de la base de datos y reproducibles.
+- Eliminación de errores críticos y mejora de la robustez del sistema.
+
+> * **Lección aprendida:**
+El testing no consiste solo en comprobar funcionalidades, sino en aislar correctamente cada capa del sistema. Mockear dependencias externas (base de datos, autenticación, APIs) y replicar fielmente la estructura de datos real es clave para evitar errores y garantizar pruebas fiables.

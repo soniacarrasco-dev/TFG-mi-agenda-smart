@@ -364,7 +364,7 @@ const GestionAcademica = ({ usuario }) => {
                 <section className="vencimientos-section">
                     <div className="section-header-flex">
                         <h3>MIS ASIGNATURAS</h3>
-                        <button className="btn-add-small" onClick={() => { setEditando(false); setMostrarModalAsig(true); }}><FiPlus /></button>
+                        <button data-testid="btn-nueva-asignatura" className="btn-add-small" onClick={() => { setEditando(false); setMostrarModalAsig(true); }}><FiPlus /></button>
                     </div>
                     <div className="card-lista">
                         <p className="card-text">Filtra por asignatura y consulta su nota media en el historial.</p>
@@ -393,7 +393,7 @@ const GestionAcademica = ({ usuario }) => {
                             <button onClick={() => setVerCompletados(!verCompletados)} className="btn-toggle-historial">
                                 {verCompletados ? "Ver Pendientes" : "Ver Historial"}
                             </button>
-                            <button className="btn-add-small" onClick={() => { setEditando(false); setMostrarModalEvento(true); }}><FiPlus /></button>
+                            <button data-testid="btn-nuevo-evento" className="btn-add-small" onClick={() => { setEditando(false); setMostrarModalEvento(true); }}><FiPlus /></button>
                         </div>
                     </div>
                     <div className="card-lista">
@@ -661,7 +661,7 @@ const GestionAcademica = ({ usuario }) => {
                                     ))}
                                 </ul>
                             )}
-                            <button type="submit" className="btn-save-full">{editando ? "Guardar cambios" : "Crear Evento"}</button>
+                            <button data-testid="btn-guardar-evento" type="submit" className="btn-save-full">{editando ? "Guardar cambios" : "Crear Evento"}</button>
                         </form>
                     </div>
                 </div>

@@ -21,14 +21,20 @@ const Ajustes = ({ token: tokenProp }) => {
 
         async function fetchPerfil() {
             if (!token) {
+                console.log('❌ No hay token');
                 return;
             }
+
+            console.log('🔐 TOKEN QUE SE ENVÍA:', token); // 👈 AQUÍ
 
             try {
                 const res = await fetch('http://localhost:3001/api/perfil', {
                     method: 'GET',
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
+
+                console.log('📡 STATUS BACKEND:', res.status); // 👈 AQUÍ
+                
                 if (!res.ok) throw new Error('Error cargando perfil');
                 const data = await res.json();
                 setPerfil(p => ({
@@ -74,8 +80,15 @@ const Ajustes = ({ token: tokenProp }) => {
                     nuevaContraseña: perfil.nuevaContraseña
                 })
             });
+            let resultado;
 
-            const resultado = await res.json();
+            try {
+                resultado = await res.json();
+            } catch {
+                const text = await res.text();
+                console.error('Respuesta no JSON:', text);
+                throw new Error('Respuesta inválida del servidor');
+            }
 
             if (!res.ok) {
                 throw new Error(resultado.mensaje || 'Error al actualizar');

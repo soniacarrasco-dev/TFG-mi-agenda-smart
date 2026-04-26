@@ -45,6 +45,7 @@ router.post('/login', async (req, res) => {
         const esValida = await bcrypt.compare(password, usuario.password);
         if (!esValida) return res.status(400).json({ mensaje: 'Contraseña incorrecta' });
 
+        console.log('🔐 JWT SECRET LOGIN:', process.env.JWT_SECRET);
         const token = jwt.sign(
             { id: usuario.id, email: usuario.email },
             process.env.JWT_SECRET,
@@ -135,18 +136,14 @@ router.post('/forgot-password', async (req, res) => {
             return res.status(404).json({ mensaje: 'Correo no registrado' });
         }
 
-        // Generar token seguro
         const token = crypto.randomBytes(32).toString("hex");
 
-        // Expira en un día
-        const hoy = new Date();
-        const mañana = new Date(hoy);
-        mañana.setDate(hoy.getDate() + 1);
-        const expiraLimpia = mañana.toISOString().split('T')[0];
+        const fechaExpira = new Date();
+        fechaExpira.setDate(fechaExpira.getDate() + 1);
 
         await pool.execute(
             'UPDATE usuarios SET reset_token = ?, reset_token_expira = ? WHERE email = ?',
-            [token, expiraLimpia, email]
+            [token, fechaExpira, email]
         );
         // Link
         const link = `http://localhost:3000/reset-password?token=${token}`;

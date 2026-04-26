@@ -120,7 +120,7 @@ const GestionProfesores = ({ usuario }) => {
                     <h1>MIS PROFESORES</h1>
                     <p>Gestiona los contactos y horarios de tus docentes.</p>
                 </div>
-                <button className="btn-add-prof" onClick={() => abrirModal()}>
+                <button className="btn-add-prof" data-testid="btn-add-profesor" onClick={() => abrirModal()}>
                     <FiPlus /> Nuevo Profesor
                 </button>
             </header>
@@ -132,7 +132,7 @@ const GestionProfesores = ({ usuario }) => {
                             <div className="prof-avatar-circle"><FiUser /></div>
                             <div className="prof-card-actions">
                                 <button onClick={() => abrirModal(prof)} className="btn-edit-ghost"><FiEdit2 /></button>
-                                <button onClick={() => prepararEliminacion(prof.id)} className="btn-del-ghost"><FiTrash2 /></button>
+                                <button onClick={() => prepararEliminacion(prof.id)} className="btn-del-ghost" data-testid={`btn-delete-${prof.id}`}><FiTrash2 /></button>
                             </div>
                         </div>
 
@@ -195,6 +195,7 @@ const GestionProfesores = ({ usuario }) => {
                             <button
                                 type="submit"
                                 className="btn-save-prof"
+                                data-testid="btn-guardar-profesor"
                                 disabled={!!errores.email || !formProf.nombre_profesor}
                             >
                                 {editando ? "Actualizar Datos" : "Crear Profesor"}

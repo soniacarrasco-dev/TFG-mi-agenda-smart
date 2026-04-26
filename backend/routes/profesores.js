@@ -106,8 +106,9 @@ router.post('/', async (req, res) => {
             [nombre_profesor, email_contacto || null, horario_tutorias || null, id_usuario]
         );
 
-        res.json({
+        return res.status(201).json({
             id: result.insertId,
+            mensaje: 'Profesor añadido',
             nombre_profesor,
             email_contacto,
             horario_tutorias,
@@ -115,7 +116,7 @@ router.post('/', async (req, res) => {
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: error.message });
+        return res.status(500).json({ error: error.message });
     }
 });
 

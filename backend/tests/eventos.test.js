@@ -55,4 +55,21 @@ describe('API Eventos', () => {
         expect(res.body.id).toBe(10);
     });
 
+    test('GET /api/eventos/:id_usuario maneja errores de base de datos', async () => {
+        pool.execute.mockRejectedValue(new Error('Database connection failed'));
+
+        const res = await request(app).get('/api/eventos/1');
+
+        expect(res.statusCode).toBe(500);
+    });
+
+    test('DELETE /api/eventos/:id elimina un evento', async () => {
+        pool.execute.mockResolvedValue([{ affectedRows: 1 }]);
+
+        const res = await request(app).delete('/api/eventos/10');
+
+        expect(res.statusCode).toBe(200);
+        expect(res.body.mensaje).toBeDefined();
+    });
+
 });

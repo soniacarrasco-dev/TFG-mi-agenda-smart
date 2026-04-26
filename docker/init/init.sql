@@ -91,6 +91,8 @@ CREATE TABLE `eventos_academicos` (
   `id_usuario` int DEFAULT NULL,
   `ruta_archivo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `fecha_entrega` date DEFAULT NULL,
+  `notifica_7_dias` BOOLEAN DEFAULT FALSE,
+  `notifica_ultimo_dia` BOOLEAN DEFAULT FALSE,
   PRIMARY KEY (`id`),
   KEY `asignatura_id` (`id_asignatura`),
   KEY `usuario_id` (`id_usuario`),

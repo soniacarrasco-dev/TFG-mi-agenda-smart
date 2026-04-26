@@ -227,3 +227,21 @@
 
 > * **Lección aprendida:**
 El testing no consiste solo en comprobar funcionalidades, sino en aislar correctamente cada capa del sistema. Mockear dependencias externas (base de datos, autenticación, APIs) y replicar fielmente la estructura de datos real es clave para evitar errores y garantizar pruebas fiables.
+
+### Fecha: [26/04/2026] - Corrección de solapamiento en lógica de notificaciones (DATEDIFF)
+* **Entrada 16:**Resolución de duplicidad de emails en eventos con vencimiento inmediato
+* **Tarea:** Corregir el error que provocaba el envío simultáneo de dos correos electrónicos ("Aviso 7 días" y "Aviso día actual") cuando un evento vencía el mismo día de su creación o verificación.
+* **Dificultad:** La lógica de selección de tareas próximas (earlyTasks) utilizaba un rango inclusivo que capturaba eventos con 0 días de margen.
+- El solapamiento de condiciones SQL generaba una redundancia de notificaciones que saturaba la bandeja de entrada del usuario para un mismo evento.
+* **Diagnóstico:** Se identificó que la consulta SQL para earlyTasks usaba BETWEEN 0 AND 7.
+* **Decisión técnica:**
+- Se modificó exclusivamente la consulta SQL en notificacion.service.js.
+- Se cambió el límite inferior del operador BETWEEN de 0 a 1.
+- Con este cambio, earlyTasks solo selecciona eventos cuyo vencimiento sea entre mañana y los próximos 7 días, dejando el valor 0 exclusivamente para la lógica de lastDayTasks.
+* **Resultado:**
+- Segmentación correcta de las notificaciones: los eventos que vencen hoy ya no disparan el aviso de "próximo a vencer".
+- El flujo de correos ahora es atómico y excluyente según la urgencia de la fecha.
+- Se mantiene la integridad de los flags notifica_7_dias y notifica_ultimo_dia sin interferencias entre ellos.
+
+> * **Lección aprendida:**
+La precisión en los operadores de rango (BETWEEN) es crítica cuando se manejan estados temporales. Un desplazamiento de una sola unidad en el límite inferior es la diferencia entre un sistema que funciona correctamente y uno que genera ruido innecesario por duplicidad de procesos.

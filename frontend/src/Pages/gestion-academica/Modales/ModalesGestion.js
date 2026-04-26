@@ -14,7 +14,7 @@ export const ModalConfirmar = ({ abierto, item, onConfirm, onCancel, btnRef }) =
                     <button ref={btnRef} type="button" className="btn-toggle-historial" onClick={onCancel}>
                         Cancelar
                     </button>
-                    <button type="button" className="btn-save-mini" onClick={onConfirm} style={{ background: '#F36766', color: 'white' }}>
+                    <button type="button" className="btn-save-mini" data-testid="btn-confirmar-eliminar" onClick={onConfirm} style={{ background: '#F36766', color: 'white' }}>
                         Eliminar
                     </button>
                 </div>

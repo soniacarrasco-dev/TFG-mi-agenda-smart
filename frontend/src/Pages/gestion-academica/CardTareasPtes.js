@@ -75,7 +75,7 @@ export const CardTareasPtes = ({ ev, onEntregar, onEdit, onDelete }) => {
                     <button className="btn-edit-ghost" onClick={() => onEdit(ev)}>
                         <FiEdit2 />
                     </button>
-                    <button className="btn-del-ghost" onClick={() => onDelete(ev.id, 'evento')}>
+                    <button className="btn-del-ghost" data-testid={`btn-delete-${ev.id}`} onClick={() => onDelete(ev.id, 'evento')}>
                         <FiTrash2 />
                     </button>
                 </div>

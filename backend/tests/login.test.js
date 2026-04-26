@@ -52,4 +52,21 @@ describe('Login API', () => {
         expect(res.statusCode).toBe(400);
     });
 
+    test('login falla con contraseña incorrecta', async () => {
+        const bcrypt = require('bcryptjs');
+        // Forzamos que la comparación de bcrypt devuelva false
+        bcrypt.compare.mockResolvedValue(false);
+
+        pool.execute.mockResolvedValue([
+            [{ id: 1, email: 'test@test.com', password: 'hash_real' }]
+        ]);
+
+        const res = await request(app)
+            .post('/api/login')
+            .send({ email: 'test@test.com', password: 'password_equivocada' });
+
+        expect(res.statusCode).toBe(400); // O 401 según tu lógica
+        expect(res.body.mensaje).toBe('Contraseña incorrecta');
+    });
+
 });

@@ -10,6 +10,9 @@ services:
         condition: service_started
     env_file:
       - .env
+    environment:
+      - JWT_SECRET=${JWT_SECRET}
+      - TZ=Europe/Madrid
     volumes:
       - ./backend:/app
     restart: always
@@ -21,6 +24,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: mi_agenda_smart
+      TZ: Europe/Madrid
     ports:
       - "3307:3306"
     volumes:

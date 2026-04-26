@@ -6,7 +6,7 @@ const checkTasksToNotify = async (userId) => {
     SELECT *
     FROM eventos_academicos
     WHERE id_usuario = ?
-      AND DATEDIFF(fecha_vencimiento, CURDATE()) BETWEEN 0 AND 7
+      AND DATEDIFF(fecha_vencimiento, CURDATE()) BETWEEN 1 AND 7
       AND notifica_7_dias = FALSE
       AND completado = FALSE
   `, [userId]);
@@ -25,23 +25,47 @@ const checkTasksToNotify = async (userId) => {
 
 // Enviar email
 const sendEmail = async (email, task, type) => {
-    let subject, text;
+
+    const fechaFormateada = new Date(task.fecha_vencimiento).toLocaleDateString('es-ES', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+
+    let subject, html;
 
     if (type === "early") {
-        subject = "Evento próximo a su vencimiento";
-        text = `El evento "${task.titulo}" vence el ${task.fecha_vencimiento}`;
+        subject = "Evento próximo";
+        html = `
+            <div style="font-family: Arial; padding: 20px;">
+                <h2 style="color:#333;">Recordatorio de evento</h2>
+                <p>El evento <strong>${task.titulo}</strong> está próximo a vencer.</p>
+                <p style="font-size:16px;">
+                    <strong>${fechaFormateada}</strong>
+                </p>
+            </div>
+        `;
     }
 
     if (type === "last_day") {
-        subject = "¡Evento vence HOY!";
-        text = `El evento "${task.titulo}" vence HOY`;
+        subject = "Evento vence HOY";
+        html = `
+            <div style="font-family: Arial; padding: 20px;">
+                <h2 style="color:#d9534f;">¡Atención!</h2>
+                <p>El evento <strong>${task.titulo}</strong> vence <strong>HOY</strong>.</p>
+                <p style="font-size:16px;">
+                    <strong>${fechaFormateada}</strong>
+                </p>
+            </div>
+        `;
     }
 
     await transporter.sendMail({
         from: "notificaciones@gmail.com",
         to: email,
         subject,
-        text
+        html
     });
 };
 

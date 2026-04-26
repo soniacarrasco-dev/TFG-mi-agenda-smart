@@ -57,3 +57,11 @@
 .btn-ajustes-save:hover {
     background: #06756f;
 }
+
+.mensaje-exito {
+    color: #08998D;
+}
+
+.mensaje-error {
+    color: #ef4444;
+}

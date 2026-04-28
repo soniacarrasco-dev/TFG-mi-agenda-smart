@@ -16,6 +16,7 @@ const GestionAcademica = ({ usuario }) => {
     const [profesores, setProfesores] = useState([]);
     const [filtroAsignatura, setFiltroAsignatura] = useState(null);
     const [verCompletados, setVerCompletados] = useState(false);
+    const [filtroTipo, setFiltroTipo] = useState('Todos');
 
     // Modales y Edición
     const [mostrarModalAsig, setMostrarModalAsig] = useState(false);
@@ -303,46 +304,70 @@ const GestionAcademica = ({ usuario }) => {
         setMostrarModalEvento(true);
     };
 
+    // Filtra los eventos por asignatura, estado (Pendiente/Historial) y tipo de evento (Tarea/Examen/Videoconferencia) según los filtros activos.
     const eventosFiltrados = eventos.filter(ev => {
         const coincideAsig = filtroAsignatura ? Number(ev.id_asignatura) === Number(filtroAsignatura) : true;
         const coincideEstado = verCompletados ? ev.completado : !ev.completado;
-        return coincideAsig && coincideEstado;
+
+        // Nuevo filtro por tipo (Tarea/Examen)
+        const coincideTipo = filtroTipo === 'Todos' ? true : ev.tipo === filtroTipo;
+
+        return coincideAsig && coincideEstado && coincideTipo;
     });
 
-    // Filtra por asignatura y por estado de completado según la vista actual.
 
-    // Calcular la nota media de la asignatura filtrada
     /**
-     * Calcula la nota media de los eventos completados para la asignatura seleccionada.
+     * Calcula la nota media de los eventos completados para la asignatura y tipo de evento seleccionados en los filtros.
      * Excluye valores no numéricos y notas vacías para evitar distorsionar el promedio.
      */
-    const calcularMedia = () => {
+    const calcularMediaPonderada = () => {
         if (!filtroAsignatura) return null;
 
-        const eventosConNota = eventos.filter(ev => {
-            const mismaAsignatura = Number(ev.id_asignatura) === Number(filtroAsignatura);
+        const eventosAsig = eventos.filter(ev =>
+            Number(ev.id_asignatura) === Number(filtroAsignatura) && ev.completado
+        );
 
-            // IMPORTANTE: Diferenciamos null/undefined de un 0 real
-            const tieneNota = ev.nota !== null && ev.nota !== undefined && ev.nota !== '';
-            const valor = parseFloat(ev.nota);
+        // Filtro de notas: elimina nulos/vacíos y valida rango 0-10
+        const notasTareas = eventosAsig
+            .filter(e => {
+                const n = parseFloat(e.nota);
+                return e.tipo === 'Tarea' && e.nota !== null && e.nota !== undefined && e.nota !== '' && !isNaN(n) && n >= 0 && n <= 10;
+            })
+            .map(e => Number(e.nota));
 
-            return (
-                mismaAsignatura &&
-                ev.completado &&
-                tieneNota &&
-                !isNaN(valor) &&
-                valor >= 0 && // Mínimo 0
-                valor <= 10   // Máximo 10
-            );
-        });
+        const notasExamenes = eventosAsig
+            .filter(e => {
+                const n = parseFloat(e.nota);
+                return e.tipo === 'Examen' && e.nota !== null && e.nota !== undefined && e.nota !== '' && !isNaN(n) && n >= 0 && n <= 10;
+            })
+            .map(e => Number(e.nota));
 
-        if (eventosConNota.length === 0) return null; // Devolvemos null si no hay datos
+        const mediaT = notasTareas.length > 0 ? notasTareas.reduce((a, b) => a + b, 0) / notasTareas.length : null;
+        const mediaE = notasExamenes.length > 0 ? notasExamenes.reduce((a, b) => a + b, 0) / notasExamenes.length : null;
 
-        const suma = eventosConNota.reduce((acc, curr) => acc + Number(curr.nota), 0);
-        return (suma / eventosConNota.length).toFixed(2);
+        // Retorno según filtro seleccionado
+        if (filtroTipo === 'Tarea') return mediaT !== null ? mediaT.toFixed(2) : null;
+        if (filtroTipo === 'Examen') return mediaE !== null ? mediaE.toFixed(2) : null;
+
+        // Retorno General (Ponderación 70/30)
+        if (mediaT !== null && mediaE !== null) {
+            return ((mediaT * 0.7) + (mediaE * 0.3)).toFixed(2);
+        } else if (mediaT !== null) {
+            return mediaT.toFixed(2); // Solo tareas disponibles
+        } else if (mediaE !== null) {
+            return mediaE.toFixed(2); // Solo exámenes disponibles
+        }
+
+        return null;
     };
 
-    const notaMedia = calcularMedia();
+    const nombresPlurales = {
+        'Todos': 'Total',
+        'Tarea': 'Tareas',
+        'Examen': 'Exámenes'
+    };
+
+    const notaMedia = calcularMediaPonderada();
 
     // Función para eliminar un archivo de la lista de rutas existentes (solo en edición)
     /**
@@ -404,15 +429,32 @@ const GestionAcademica = ({ usuario }) => {
                         </p>
                         {/* Visualización de la Nota Media si hay una asignatura seleccionada */}
                         {filtroAsignatura && verCompletados && (
-                            <div className="media-info-box">
-                                <span>Media de la asignatura: </span>
-                                {notaMedia !== null ? (
-                                    <strong className={parseFloat(notaMedia) >= 5 ? 'nota-aprobada' : 'nota-suspensa'}>
-                                        {notaMedia}
-                                    </strong>
-                                ) : (
-                                    <span>Sin calificaciones</span>
-                                )}
+                            <div className="media-info-wrapper">
+                                <div className="filtro-tipo-header">
+                                    <label><FiFilter size={14} /> Filtrar vista:</label>
+                                    <select
+                                        value={filtroTipo}
+                                        onChange={(e) => setFiltroTipo(e.target.value)}
+                                        className="select-tipo-nota"
+                                    >
+                                        <option value="Todos">Resumen (70% Tarea / 30% Exam)</option>
+                                        <option value="Tarea">Solo Tareas (Media 70%)</option>
+                                        <option value="Examen">Solo Exámenes (Media 30%)</option>
+                                    </select>
+                                </div>
+
+                                <div className="media-info-box">
+                                    <span>
+                                        {filtroTipo === 'Todos' ? 'Nota final estimada:' : `Media de ${nombresPlurales[filtroTipo]}:`}
+                                    </span>
+                                    {notaMedia !== null ? (
+                                        <strong className={parseFloat(notaMedia) >= 5 ? 'nota-aprobada' : 'nota-suspensa'}>
+                                            {notaMedia}
+                                        </strong>
+                                    ) : (
+                                        <span className="sin-notas-txt">Pendiente de calificar</span>
+                                    )}
+                                </div>
                             </div>
                         )}
 

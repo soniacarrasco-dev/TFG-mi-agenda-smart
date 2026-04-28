@@ -245,3 +245,20 @@ El testing no consiste solo en comprobar funcionalidades, sino en aislar correct
 
 > * **Lección aprendida:**
 La precisión en los operadores de rango (BETWEEN) es crítica cuando se manejan estados temporales. Un desplazamiento de una sola unidad en el límite inferior es la diferencia entre un sistema que funciona correctamente y uno que genera ruido innecesario por duplicidad de procesos.
+
+### [28/04/2026] - Implementación de analítica académica y feedback de tutoría
+* **Entrada 17:** Sistema de medias ponderadas y filtrado avanzado de calificaciones
+* **Tarea:** Atender al feedback de la tutoría final para diferenciar visualmente los exámenes y permitir el cálculo de la nota media ponderada de la asignatura.
+* **Dificultad:** 
+- La lógica de cálculo original no distinguía entre tipos de eventos, mezclando tareas y exámenes en un promedio simple.
+- Riesgo de romper la integridad de los datos si el sistema trataba los valores null (pendiente de calificar) como un 0 (suspenso).
+- Necesidad de reflejar la normativa académica donde los exámenes tienen un peso diferente (30%) frente a las tareas (70%).
+* **Diagnóstico:** Se determinó que crear una sección nueva desde cero era inviable por tiempo. La solución óptima pasaba por transformar la vista de historial en un panel interactivo mediante estados de React.
+* **Decisión técnica:** 
+- Lógica de Negocio: Implementé la función calcularMediaPonderada utilizando filtrado por tipos. El algoritmo descarta valores no numéricos mediante e.nota !== null para asegurar que solo las tareas calificadas influyan en el promedio.
+- UI/UX: Introduje un componente de filtrado dinámico mediante un select personalizado que permite conmutar entre la media de tareas, la de exámenes o la nota final proyectada.
+- Normalización Gramatical: Utilicé un objeto mapeador (nombresPlurales) para corregir errores de pluralización y tildes en la interfaz (ej. "Exámenes" vs "Tareaes"), mejorando la calidad del acabado visual.
+- Accesibilidad: Decidí mantener los bordes de foco (outline) nativos del navegador tras evaluar que eliminarlos sin una alternativa sólida perjudicaba la navegación mediante teclado.
+* **Resultado:** El usuario ahora dispone de una herramienta de análisis en tiempo real que aplica los porcentajes oficiales (70/30), permitiéndole visualizar su progreso académico de forma precisa y filtrada por tipología de evento.
+
+> * **Lección aprendida:** El feedback de última hora no siempre requiere rehacer el proyecto. A menudo, una capa de lógica bien aplicada sobre la estructura existente (en este caso, un filtro inteligente con pesos matemáticos) añade más valor que una funcionalidad nueva pero inacabada.

@@ -21,11 +21,10 @@ const Ajustes = ({ token: tokenProp }) => {
 
         async function fetchPerfil() {
             if (!token) {
-                console.log('❌ No hay token');
                 return;
             }
 
-            console.log('🔐 TOKEN QUE SE ENVÍA:', token); // 👈 AQUÍ
+            console.log('🔐 TOKEN QUE SE ENVÍA:', token);
 
             try {
                 const res = await fetch('http://localhost:3001/api/perfil', {
@@ -33,8 +32,8 @@ const Ajustes = ({ token: tokenProp }) => {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
 
-                console.log('📡 STATUS BACKEND:', res.status); // 👈 AQUÍ
-                
+                console.log('STATUS BACKEND:', res.status);
+
                 if (!res.ok) throw new Error('Error cargando perfil');
                 const data = await res.json();
                 setPerfil(p => ({

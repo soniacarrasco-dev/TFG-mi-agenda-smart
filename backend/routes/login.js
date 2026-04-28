@@ -45,7 +45,6 @@ router.post('/login', async (req, res) => {
         const esValida = await bcrypt.compare(password, usuario.password);
         if (!esValida) return res.status(400).json({ mensaje: 'Contraseña incorrecta' });
 
-        console.log('🔐 JWT SECRET LOGIN:', process.env.JWT_SECRET);
         const token = jwt.sign(
             { id: usuario.id, email: usuario.email },
             process.env.JWT_SECRET,

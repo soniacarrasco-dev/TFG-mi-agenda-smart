@@ -401,7 +401,49 @@
     box-shadow: 0 0 10px 100px #f0f2f5 inset !important;
 }
 
+.media-info-wrapper {
+    background: #ffffff;
+    border: 2px solid #eef2f3;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
 
+.filtro-tipo-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #dfe6e9;
+    font-size: 0.85rem;
+    color: #636e72;
+}
+
+.select-tipo-nota {
+    border: 1px solid #194f58;
+    border-radius: 6px;
+    padding: 4px 8px;
+    color: #08998d;
+    font-size: 0.85rem;
+    cursor: pointer;
+    background-color: #ffffff;
+}
+
+.media-info-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+    color: #194f58;
+}
+
+.sin-notas-txt {
+    font-weight: 400;
+    color: #95a5a6;
+    font-style: italic;
+}
 
 
 

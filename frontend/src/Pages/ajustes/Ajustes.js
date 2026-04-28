@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Ajustes.css';
 
 const Ajustes = ({ token: tokenProp }) => {
     const token = tokenProp || localStorage.getItem('token');
+    const navigate = useNavigate();
 
     const [perfil, setPerfil] = useState({
         nombre: '',
@@ -24,13 +26,19 @@ const Ajustes = ({ token: tokenProp }) => {
                 return;
             }
 
-            console.log('🔐 TOKEN QUE SE ENVÍA:', token);
-
             try {
                 const res = await fetch('http://localhost:3001/api/perfil', {
                     method: 'GET',
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
+
+                if (res.status === 403 || res.status === 401) {
+                    console.warn("Sesión expirada o token inválido. Limpiando...");
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('usuario');
+                    navigate('/login');
+                    return;
+                }
 
                 console.log('STATUS BACKEND:', res.status);
 
@@ -108,7 +116,7 @@ const Ajustes = ({ token: tokenProp }) => {
 
     return (
         <div className="ajustes-container">
-            <h2>Editar Perfil</h2>
+            <h2>EDITAR PERFIL</h2>
             <form onSubmit={handleSubmit} className="form-ajustes">
                 <div className="form-group">
                     <label>Nombre de usuario:</label>
